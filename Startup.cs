@@ -13,6 +13,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using backend.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using backend.Repositories;
+using System.Net;
+using Microsoft.AspNetCore.Diagnostics;
+using agendamento_coordenacao.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace backend
 {
@@ -34,13 +42,33 @@ namespace backend
                 .UseLazyLoadingProxies()
                 .UseMySql(Configuration.GetConnectionString("DefaultConnection"), 
                 options => options.EnableRetryOnFailure()));
-                
-            services.AddTransient<SeedUser>();
             services.AddControllers()
                 .AddNewtonsoftJson(o => 
                 {
                     o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
+
+            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+                
+            services.AddTransient<SeedUser>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +77,22 @@ namespace backend
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            } else {
+                app.UseExceptionHandler(builder =>
+                {
+                    builder.Run(async context =>
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        if (error != null)
+                        {
+                            context.Response.AddApplicationError(error.Error.Message);
+                            
+                            await context.Response.WriteAsync("Ocorreu um erro interno no servidor");
+                        }
+                    });
+                });
             }
 
             app.UseRouting();
