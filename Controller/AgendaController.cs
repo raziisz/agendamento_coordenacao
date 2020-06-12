@@ -16,13 +16,13 @@ namespace agendamento_coordenacao.Controller
             _repo = repo;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Index() 
-        {
-            var schedules = await _repo.GetActualSchedules();
-            return Ok(new {
-                schedules
-            });
-        }
+        // [HttpGet]
+        // public async Task<IActionResult> Index() 
+        // {
+        //     // var schedules = await _repo.GetActualSchedules();
+        //     // return Ok(new {
+        //     //     schedules
+        //     // });
+        // }
     }
 }
