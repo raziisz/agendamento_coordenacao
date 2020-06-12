@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Threading.Tasks;
 using agendamento_coordenacao.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -16,13 +17,15 @@ namespace agendamento_coordenacao.Controller
             _repo = repo;
         }
 
-        // [HttpGet]
-        // public async Task<IActionResult> Index() 
-        // {
-        //     // var schedules = await _repo.GetActualSchedules();
-        //     // return Ok(new {
-        //     //     schedules
-        //     // });
-        // }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index() 
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var schedules = await _repo.GetActualSchedules(userId);
+            return Ok(new {
+                schedules
+            });
+        }
     }
 }

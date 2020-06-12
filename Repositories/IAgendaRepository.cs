@@ -7,6 +7,6 @@ namespace agendamento_coordenacao.Repositories
 {
     public interface IAgendaRepository
     {
-        Task<List<AgendaDto>> GetActualSchedules(int id);
+        Task<IEnumerable<AgendaDto>> GetActualSchedules(int id);
     }
 }

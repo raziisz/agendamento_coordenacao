@@ -105,6 +105,7 @@ namespace agendamento_coordenacao
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

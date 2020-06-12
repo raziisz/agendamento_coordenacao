@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace agendamento_coordenacao.Repositories
             _context = context;
 
         }
-        public async Task<List<AgendaDto>> GetActualSchedules(int id)
+        public async Task<IEnumerable<AgendaDto>> GetActualSchedules(int id)
         {
             var works = await _context.Works.Where(u => u.UserId == id).Select(w => new AgendaDto
             {
@@ -27,6 +28,7 @@ namespace agendamento_coordenacao.Repositories
                 DateWork = w.DateWork,
                 Local = w.Local,
                 Reschedule = w.Reschedule,
+                Tipo = "Tarefa"
             }).ToListAsync();
 
             var projects = await _context.Projects.Where(u => u.UserId == id).Select(p => new AgendaDto 
@@ -37,7 +39,8 @@ namespace agendamento_coordenacao.Repositories
                 Local = p.Local,
                 Reschedule = p.Reschedule,
                 StartProject = p.StartProject,
-                EndProject = p.EndProject
+                EndProject = p.EndProject,
+                Tipo = "Projeto"
             }).ToListAsync();
 
             var reunions = await _context.Reunions.Where(r => r.UserId == id).Select(r => new AgendaDto 
@@ -50,6 +53,7 @@ namespace agendamento_coordenacao.Repositories
                 DateReunion = r.DateReunion,
                 HourStart = r.HourStart,
                 HourEnd = r.HourEnd,
+                Tipo = "Reunião"
             }).ToListAsync();
 
             var schedules = new List<AgendaDto>();
@@ -57,7 +61,10 @@ namespace agendamento_coordenacao.Repositories
             schedules.AddRange(projects);
             schedules.AddRange(reunions);
             
-            return schedules;
+            return schedules.OrderBy(s => s.DateReunion)
+                .ThenBy(s => s.DateWork)
+                .ThenBy(s => s.StartProject)
+                .ThenBy(s => s.Tipo).ToArray();
         }
     }
 }

@@ -9,6 +9,7 @@ namespace agendamento_coordenacao.Models.Dtos
         public string Description { get; set; }
         public bool Reschedule { get; set; }
         public string Local { get; set; }
+        public string Tipo { get; set; }
         //Reunião
         public DateTime? DateReunion { get; set; }
         public string HourStart { get; set; }
