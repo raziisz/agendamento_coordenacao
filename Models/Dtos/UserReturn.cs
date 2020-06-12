@@ -1,4 +1,4 @@
-namespace backend.Models.Dtos
+namespace agendamento_coordenacao.Models.Dtos
 {
     public class UserReturn
     {

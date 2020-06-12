@@ -1,9 +1,9 @@
 using System;
-using backend.Models;
-using backend.Models.Enums;
+using agendamento_coordenacao.Models;
+using agendamento_coordenacao.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Data.Map
+namespace agendamento_coordenacao.Data.Map
 {
     public class UserMap : IEntityTypeConfiguration<User>
     {

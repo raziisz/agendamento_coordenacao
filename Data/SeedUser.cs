@@ -1,8 +1,8 @@
 using System.Linq;
-using backend.Models;
+using agendamento_coordenacao.Models;
 using Newtonsoft.Json;
 
-namespace backend.Data
+namespace agendamento_coordenacao.Data
 {
     public class SeedUser
     {

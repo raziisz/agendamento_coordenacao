@@ -1,8 +1,8 @@
-using backend.Data.Map;
-using backend.Models;
+using agendamento_coordenacao.Data.Map;
+using agendamento_coordenacao.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Data
+namespace agendamento_coordenacao.Data
 {
     public class DataContext : DbContext
     {

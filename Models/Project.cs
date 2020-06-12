@@ -1,6 +1,6 @@
 using System;
 
-namespace backend.Models
+namespace agendamento_coordenacao.Models
 {
     public class Project : Schedule
     {

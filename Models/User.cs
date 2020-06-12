@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using backend.Models.Enums;
+using agendamento_coordenacao.Models.Enums;
 
-namespace backend.Models
+namespace agendamento_coordenacao.Models
 {
     public class User
     {

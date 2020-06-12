@@ -1,4 +1,4 @@
-namespace backend.Models
+namespace agendamento_coordenacao.Models
 {
     public abstract class Schedule
     {

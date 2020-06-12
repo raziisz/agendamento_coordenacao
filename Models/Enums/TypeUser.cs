@@ -1,4 +1,4 @@
-namespace backend.Models.Enums
+namespace agendamento_coordenacao.Models.Enums
 {
     public enum TypeUser
     {

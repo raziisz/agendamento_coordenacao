@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using backend.Data;
+using agendamento_coordenacao.Data;
 
-namespace backend.Migrations
+namespace agendamento_coordenacao.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20200602154655_Initial2")]

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\luiz.libertino\\Documents\\trabs\\agendamento_coordenacao\\backend.csproj": {}
+    "C:\\Users\\razie\\Documents\\estudos\\agendamento_coordenacao\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\luiz.libertino\\Documents\\trabs\\agendamento_coordenacao\\backend.csproj": {
+    "C:\\Users\\razie\\Documents\\estudos\\agendamento_coordenacao\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\luiz.libertino\\Documents\\trabs\\agendamento_coordenacao\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\razie\\Documents\\estudos\\agendamento_coordenacao\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\luiz.libertino\\Documents\\trabs\\agendamento_coordenacao\\backend.csproj",
-        "packagesPath": "C:\\Users\\luiz.libertino\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\luiz.libertino\\Documents\\trabs\\agendamento_coordenacao\\obj\\",
+        "projectPath": "C:\\Users\\razie\\Documents\\estudos\\agendamento_coordenacao\\backend.csproj",
+        "packagesPath": "C:\\Users\\razie\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\razie\\Documents\\estudos\\agendamento_coordenacao\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\luiz.libertino\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\razie\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -94,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

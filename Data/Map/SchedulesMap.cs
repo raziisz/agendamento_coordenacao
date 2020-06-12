@@ -1,7 +1,7 @@
-using backend.Models;
+using agendamento_coordenacao.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Data.Map
+namespace agendamento_coordenacao.Data.Map
 {
     public class SchedulesMap : IEntityTypeConfiguration<Schedule>
     {

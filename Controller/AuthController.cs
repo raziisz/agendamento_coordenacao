@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using agendamento_coordenacao.Services;
-using backend.Models.Dtos;
-using backend.Repositories;
+using agendamento_coordenacao.Models.Dtos;
+using agendamento_coordenacao.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +10,7 @@ namespace agendamento_coordenacao.Controller
 {
   [AllowAnonymous]
   [ApiController]
-  [Route("v1/[controller]")]
+  [Route("api/v1/[controller]")]
   public class AuthController : ControllerBase
   {
     private readonly IAuthRepository _repo;

@@ -1,8 +1,8 @@
-using backend.Models;
+using agendamento_coordenacao.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace backend.Data.Map
+namespace agendamento_coordenacao.Data.Map
 {
     public class WorkMap : IEntityTypeConfiguration<Work>
     {

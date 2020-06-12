@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using backend.Data;
-using backend.Models.Dtos;
+using agendamento_coordenacao.Data;
+using agendamento_coordenacao.Models.Dtos;
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Repositories
+namespace agendamento_coordenacao.Repositories
 {
     public class AuthRepository : IAuthRepository
     {
