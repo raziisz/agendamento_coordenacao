@@ -93,10 +93,24 @@ namespace agendamento_coordenacao.Repositories
             {
                 startDate = DateTime.ParseExact(ap.StartDate, "dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"));
                 endDate = DateTime.ParseExact(ap.EndDate, "dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"));
+
+                worksQuery = worksQuery.Where(w => 
+                    startDate >= w.DateWork && w.DateWork <= endDate);
+                
+                projectsQuery = projectsQuery.Where(p =>
+                    startDate >= p.StartProject && p.StartProject <= endDate);
+                
+                reunionsQuery = reunionsQuery.Where(r =>
+                    startDate >= r.DateReunion && r.DateReunion <= endDate);
             }
 
-            var works = await worksQuery.Where(w => 
-                startDate >= w.DateWork && w.DateWork <= endDate).Select(w => new AgendaDto
+            var countWorks = await worksQuery.CountAsync();
+            var countProjects = await projectsQuery.CountAsync();
+            var countReunions = await reunionsQuery.CountAsync();
+
+            var count = countProjects + countReunions + countWorks;
+
+            var works = await worksQuery.Select(w => new AgendaDto
             {
                 Id = w.Id,
                 Title = w.Title,
@@ -107,8 +121,7 @@ namespace agendamento_coordenacao.Repositories
                 Tipo = "Tarefa"
             }).ToListAsync();
 
-            var projects = await projectsQuery.Where(p =>
-                startDate >= p.StartProject && p.StartProject <= endDate).Select(p => new AgendaDto
+            var projects =  await projectsQuery.Select(p => new AgendaDto
             {
                 Id = p.Id,
                 Title = p.Title,
@@ -120,8 +133,7 @@ namespace agendamento_coordenacao.Repositories
                 Tipo = "Projeto"
             }).ToListAsync();
 
-            var reunions = await reunionsQuery.Where(r =>
-                startDate >= r.DateReunion && r.DateReunion <= endDate).Select(r => new AgendaDto
+            var reunions =  await reunionsQuery.Select(r => new AgendaDto
             {
                 Id = r.Id,
                 Title = r.Title,
@@ -134,14 +146,19 @@ namespace agendamento_coordenacao.Repositories
                 Tipo = "Reunião"
             }).ToListAsync();
 
-            
+
             var schedules = new List<AgendaDto>();
+            schedules.AddRange(reunions);
             schedules.AddRange(works);
             schedules.AddRange(projects);
-            schedules.AddRange(reunions);
 
-            return await PagedList<AgendaDto>.CreateAsync(schedules.AsQueryable(),
-                 ap.PageNumber, ap.PageSize);
+            var itens =  schedules
+                .Skip((ap.PageNumber - 1) * ap.PageSize)
+                .Take(ap.PageSize)
+                .OrderByDescending(s => s.Tipo)
+                .ToList();
+
+            return new PagedList<AgendaDto>(itens, count, ap.PageNumber, ap.PageSize);
         }
     }
 }

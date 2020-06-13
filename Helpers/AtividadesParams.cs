@@ -13,5 +13,7 @@ namespace agendamento_coordenacao.Helpers
 
         public string StartDate { get; set; } = "";
         public string EndDate { get; set; } = "";
+        public int Reschedule { get; set; }  = 0;
+        public string Type { get; set; } = "";           
     }
 }

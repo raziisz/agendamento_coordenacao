@@ -33,6 +33,10 @@ namespace agendamento_coordenacao.Controller
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var schedules = await _repo.GetSchedules(ap, userId);
+
+            Response.AddPagination(schedules.CurrentPage, schedules.PageSize,
+                schedules.TotalCount, schedules.TotalPages);
+            
             return Ok(new { schedules });
         }
     }
