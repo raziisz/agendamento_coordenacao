@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
+using agendamento_coordenacao.Helpers;
 using agendamento_coordenacao.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,6 @@ namespace agendamento_coordenacao.Controller
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index() 
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
@@ -26,6 +26,14 @@ namespace agendamento_coordenacao.Controller
             return Ok(new {
                 schedules
             });
+        }
+
+        [HttpGet("atividades")] 
+        public async Task<IActionResult> Tasks([FromQuery] AtividadesParams ap)
+        {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var schedules = await _repo.GetSchedules(ap, userId);
+            return Ok(new { schedules });
         }
     }
 }
