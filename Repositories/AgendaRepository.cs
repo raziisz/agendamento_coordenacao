@@ -104,6 +104,12 @@ namespace agendamento_coordenacao.Repositories
                     startDate >= r.DateReunion && r.DateReunion <= endDate);
             }
 
+            if (ap.Title != "") {
+                worksQuery = worksQuery.Where(w => w.Title.Contains(ap.Title));
+                projectsQuery = projectsQuery.Where(w => w.Title.Contains(ap.Title));
+                reunionsQuery = reunionsQuery.Where(w => w.Title.Contains(ap.Title));
+            }
+
             var countWorks = await worksQuery.CountAsync();
             var countProjects = await projectsQuery.CountAsync();
             var countReunions = await reunionsQuery.CountAsync();

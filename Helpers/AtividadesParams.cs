@@ -4,7 +4,7 @@ namespace agendamento_coordenacao.Helpers
     {
         private const int MaxPageSize = 30;
         public int PageNumber { get; set; } = 1;
-        private int pageSize = 20;
+        private int pageSize = 2;
         public int PageSize
         {
             get { return pageSize; }
@@ -14,6 +14,7 @@ namespace agendamento_coordenacao.Helpers
         public string StartDate { get; set; } = "";
         public string EndDate { get; set; } = "";
         public int Reschedule { get; set; }  = 0;
-        public string Type { get; set; } = "";           
+        public string Type { get; set; } = "";
+        public string Title { get; set; } = "";         
     }
 }
