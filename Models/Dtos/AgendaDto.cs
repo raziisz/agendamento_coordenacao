@@ -19,6 +19,7 @@ namespace agendamento_coordenacao.Models.Dtos
         public DateTime? EndProject { get; set; }
         //Tarefa
         public DateTime? DateWork { get; set; }
+        public int UserId { get; set; }
 
         public AgendaDto()
         {

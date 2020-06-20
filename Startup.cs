@@ -68,6 +68,7 @@ namespace agendamento_coordenacao
             });
                 
             services.AddTransient<SeedUser>();
+            services.AddTransient<IUnityOfWork, UnityOfWork>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IAgendaRepository, AgendaRepository>();
         }

@@ -10,5 +10,9 @@ namespace agendamento_coordenacao.Repositories
     {
         Task<IEnumerable<AgendaDto>> GetActualSchedules(int id);
         Task<PagedList<AgendaDto>> GetSchedules(AtividadesParams ap, int id);
+        Task Add(AgendaDto agenda);
+        Task<AgendaDto> GetSchedule(int id);
+        Task Update(AgendaDto agenda);
+        Task Delete(int id);
     }
 }

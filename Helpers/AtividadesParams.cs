@@ -4,7 +4,7 @@ namespace agendamento_coordenacao.Helpers
     {
         private const int MaxPageSize = 30;
         public int PageNumber { get; set; } = 1;
-        private int pageSize = 2;
+        private int pageSize = 20;
         public int PageSize
         {
             get { return pageSize; }
