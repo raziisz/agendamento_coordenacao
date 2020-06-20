@@ -23,18 +23,23 @@ namespace agendamento_coordenacao.Repositories
 
         public async Task Add(AgendaDto agenda)
         {
-            
+
             Schedule schedule;
-            
-            if (agenda.DateReunion != null) {
+
+            if (agenda.DateReunion != null)
+            {
                 schedule = new Reunion(agenda);
                 await _context.Schedules.AddAsync(schedule);
 
-            } else if (agenda.DateWork != null) {
+            }
+            else if (agenda.DateWork != null)
+            {
                 schedule = new Work(agenda);
                 await _context.Schedules.AddAsync(schedule);
 
-            } else if (agenda.StartProject != null) {
+            }
+            else if (agenda.StartProject != null)
+            {
                 schedule = new Project(agenda);
                 await _context.Schedules.AddAsync(schedule);
 
@@ -52,10 +57,10 @@ namespace agendamento_coordenacao.Repositories
         public async Task<IEnumerable<AgendaDto>> GetActualSchedules(int id)
         {
             var dateCurrent = DateTime.Now;
-            var worksQuery =  _context.Works
+            var worksQuery = _context.Works
                 .Where(u => u.UserId == id).AsQueryable();
-            
-            worksQuery =  worksQuery.Where(u => u.DateWork >= dateCurrent);
+
+            worksQuery = worksQuery.Where(u => u.DateWork >= dateCurrent);
 
 
             var works = await worksQuery.Select(w => new AgendaDto
@@ -87,7 +92,7 @@ namespace agendamento_coordenacao.Repositories
             var reunionsQuery = _context.Reunions
                 .Where(r => r.UserId == id).AsQueryable();
             reunionsQuery = reunionsQuery.Where(u => u.DateReunion >= dateCurrent);
-                
+
             var reunions = await reunionsQuery.Select(r => new AgendaDto
             {
                 Id = r.Id,
@@ -128,8 +133,8 @@ namespace agendamento_coordenacao.Repositories
                     UserId = x.UserId
                 })
                 .FirstOrDefaultAsync();
-            
-            if(work != null) return work;
+
+            if (work != null) return work;
 
             var project = await _context.Projects
                 .Where(x => x.Id == id)
@@ -146,9 +151,9 @@ namespace agendamento_coordenacao.Repositories
                     EndProject = x.EndProject
                 })
                 .FirstOrDefaultAsync();
-            
-            if(project != null) return project;
-            
+
+            if (project != null) return project;
+
             var reunion = await _context.Reunions
                 .Where(x => x.Id == id)
                 .Select(x => new AgendaDto
@@ -165,8 +170,8 @@ namespace agendamento_coordenacao.Repositories
                     DateReunion = x.DateReunion
                 })
                 .FirstOrDefaultAsync();
-            
-            if(reunion != null) return reunion;
+
+            if (reunion != null) return reunion;
 
             return null;
         }
@@ -192,27 +197,39 @@ namespace agendamento_coordenacao.Repositories
 
             var startDate = new DateTime();
             var endDate = new DateTime();
-            
-            worksQuery = worksQuery.Where(w => w.DateWork >= dateCurrent);
-            projectsQuery = projectsQuery.Where(p => p.EndProject >= dateCurrent);
-            reunionsQuery = reunionsQuery.Where(r => r.DateReunion >= dateCurrent);
-            
+
+
+
+            if (ap.ExpiredDate == 1)
+            {
+                worksQuery = worksQuery.Where(w => w.DateWork < dateCurrent);
+                projectsQuery = projectsQuery.Where(p => p.EndProject < dateCurrent);
+                reunionsQuery = reunionsQuery.Where(r => r.DateReunion < dateCurrent);
+            }
+            else
+            {
+                worksQuery = worksQuery.Where(w => w.DateWork >= dateCurrent);
+                projectsQuery = projectsQuery.Where(p => p.EndProject >= dateCurrent);
+                reunionsQuery = reunionsQuery.Where(r => r.DateReunion >= dateCurrent);
+            }
+
             if (ap.StartDate != "" && ap.EndDate != "")
             {
                 startDate = DateTime.ParseExact(ap.StartDate, "dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"));
                 endDate = DateTime.ParseExact(ap.EndDate, "dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"));
 
-                worksQuery = worksQuery.Where(w => 
-                    startDate >= w.DateWork);
-                
+                worksQuery = worksQuery.Where(w =>
+                    w.DateWork >= startDate);
+
                 projectsQuery = projectsQuery.Where(p =>
-                    startDate >= p.StartProject && p.EndProject <= endDate);
-                
+                    p.StartProject >= startDate || p.EndProject <= endDate);
+
                 reunionsQuery = reunionsQuery.Where(r =>
-                    startDate >= r.DateReunion);
+                    r.DateReunion >= startDate);
             }
 
-            if (ap.Title != "") {
+            if (ap.Title != "")
+            {
                 worksQuery = worksQuery.Where(w => w.Title.Contains(ap.Title));
                 projectsQuery = projectsQuery.Where(w => w.Title.Contains(ap.Title));
                 reunionsQuery = reunionsQuery.Where(w => w.Title.Contains(ap.Title));
@@ -236,7 +253,7 @@ namespace agendamento_coordenacao.Repositories
                 UserId = w.UserId
             }).ToListAsync();
 
-            var projects =  await projectsQuery.Select(p => new AgendaDto
+            var projects = await projectsQuery.Select(p => new AgendaDto
             {
                 Id = p.Id,
                 Title = p.Title,
@@ -249,7 +266,7 @@ namespace agendamento_coordenacao.Repositories
                 UserId = p.UserId
             }).ToListAsync();
 
-            var reunions =  await reunionsQuery.Select(r => new AgendaDto
+            var reunions = await reunionsQuery.Select(r => new AgendaDto
             {
                 Id = r.Id,
                 Title = r.Title,
@@ -269,7 +286,7 @@ namespace agendamento_coordenacao.Repositories
             schedules.AddRange(works);
             schedules.AddRange(projects);
 
-            var itens =  schedules
+            var itens = schedules
                 .Skip((ap.PageNumber - 1) * ap.PageSize)
                 .Take(ap.PageSize)
                 .OrderByDescending(s => s.Tipo)
@@ -283,8 +300,9 @@ namespace agendamento_coordenacao.Repositories
             var work = await _context.Works
                 .Where(x => x.Id == agenda.Id)
                 .FirstOrDefaultAsync();
-            
-            if(work != null) {
+
+            if (work != null)
+            {
                 work.Local = agenda.Local;
                 work.Reschedule = agenda.Reschedule;
                 work.Title = agenda.Title;
@@ -296,8 +314,9 @@ namespace agendamento_coordenacao.Repositories
             var project = await _context.Projects
                 .Where(x => x.Id == agenda.Id)
                 .FirstOrDefaultAsync();
-            
-            if(project != null) {
+
+            if (project != null)
+            {
                 project.Local = agenda.Local;
                 project.Reschedule = agenda.Reschedule;
                 project.Title = agenda.Title;
@@ -306,12 +325,13 @@ namespace agendamento_coordenacao.Repositories
                 project.StartProject = agenda.StartProject;
                 project.EndProject = agenda.EndProject;
             }
-            
+
             var reunion = await _context.Reunions
                 .Where(x => x.Id == agenda.Id)
                 .FirstOrDefaultAsync();
-            
-            if(reunion != null) {
+
+            if (reunion != null)
+            {
                 reunion.Local = agenda.Local;
                 reunion.Reschedule = agenda.Reschedule;
                 reunion.Title = agenda.Title;

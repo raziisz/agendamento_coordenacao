@@ -27,6 +27,7 @@ namespace agendamento_coordenacao.Controller
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var schedules = await _repo.GetActualSchedules(userId);
+            
             return Ok(new
             {
                 schedules
