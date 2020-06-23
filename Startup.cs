@@ -71,6 +71,7 @@ namespace agendamento_coordenacao
             services.AddTransient<IUnityOfWork, UnityOfWork>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IAgendaRepository, AgendaRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
