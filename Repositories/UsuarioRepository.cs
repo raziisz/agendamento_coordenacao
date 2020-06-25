@@ -56,7 +56,7 @@ namespace agendamento_coordenacao.Repositories
             {
                 Email = x.Email,
                 Id = x.Id,
-                Name = x.Name,
+                Name = $"{x.Name} {x.LastName}",
                 Role = x.TypeUser.ToString()
             }).AsQueryable();
 
@@ -66,18 +66,18 @@ namespace agendamento_coordenacao.Repositories
         public async Task Update(UserCreateDto user, int id)
         {
             byte[] PasswordHash, PasswordSalt;
-            var newUser = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var userRepo = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
             
-            newUser.Email = user.Email;
-            newUser.LastName = user.LastName;
-            newUser.Name = user.Name;
-            newUser.TypeUser = (TypeUser)user.TypeUser;
+            userRepo.Email = user.Email;
+            userRepo.LastName = user.LastName;
+            userRepo.Name = user.Name;
+            userRepo.TypeUser = (TypeUser)user.TypeUser;
             
             if (!string.IsNullOrEmpty(user.Password)) {
                 CreatePasswordHash(user.Password, out PasswordHash, out PasswordSalt);
 
-                newUser.PasswordHash = PasswordHash;
-                newUser.PasswordSalt = PasswordSalt;
+                userRepo.PasswordHash = PasswordHash;
+                userRepo.PasswordSalt = PasswordSalt;
             }
 
         }

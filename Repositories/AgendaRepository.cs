@@ -26,19 +26,19 @@ namespace agendamento_coordenacao.Repositories
 
             Schedule schedule;
 
-            if (agenda.DateReunion != null)
+            if (agenda.Tipo == "Reunion")
             {
                 schedule = new Reunion(agenda);
                 await _context.Schedules.AddAsync(schedule);
 
             }
-            else if (agenda.DateWork != null)
+            else if (agenda.Tipo == "Work")
             {
                 schedule = new Work(agenda);
                 await _context.Schedules.AddAsync(schedule);
 
             }
-            else if (agenda.StartProject != null)
+            else if (agenda.Tipo == "Project")
             {
                 schedule = new Project(agenda);
                 await _context.Schedules.AddAsync(schedule);

@@ -24,6 +24,9 @@ namespace agendamento_coordenacao.Controller
         {
             var users = await _repo.GetUsers(up);
 
+            Response.AddPagination(users.CurrentPage, users.PageSize,
+                users.TotalCount, users.TotalPages);
+
             return Ok(new { users });
         }
 
